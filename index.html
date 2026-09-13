@@ -88,6 +88,16 @@
       letter-spacing: 1px;
     }
 
+    .section-title {
+      grid-column: span 2;
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: var(--primary-green);
+      border-bottom: 2px solid var(--bright-yellow);
+      padding-bottom: 4px;
+      margin-top: 10px;
+    }
+
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -164,6 +174,27 @@
       resize: vertical;
     }
 
+    /* Announcement Box */
+    .announcement-box {
+      display: none;
+      background: #e8f5e9;
+      border: 2px solid var(--accent-green);
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .announcement-box h4 {
+      color: var(--primary-green);
+      margin-bottom: 5px;
+    }
+
+    .announcement-box p {
+      font-size: 0.9rem;
+      color: #1b5e20;
+    }
+
     /* Submit Button */
     .submit-btn {
       margin-top: 20px;
@@ -199,7 +230,7 @@
       .form-grid {
         grid-template-columns: 1fr;
       }
-      .full-width {
+      .full-width, .section-title {
         grid-column: span 1;
       }
     }
@@ -227,13 +258,14 @@
           </select>
         </div>
 
-        <!-- Full Name -->
+        <!-- Student Basic Information -->
+        <div class="section-title">👤 Student Information</div>
+
         <div class="form-group full-width">
           <label for="fullName">Full Name</label>
           <input type="text" id="fullName" required placeholder="e.g. Juan Cruz">
         </div>
 
-        <!-- Grade Level -->
         <div class="form-group">
           <label for="gradeLevel">Grade Level</label>
           <select id="gradeLevel" required>
@@ -247,13 +279,11 @@
           </select>
         </div>
 
-        <!-- Age -->
         <div class="form-group">
           <label for="age">Age</label>
           <input type="number" id="age" min="10" max="25" required placeholder="Age">
         </div>
 
-        <!-- Gender -->
         <div class="form-group">
           <label for="gender">Gender</label>
           <select id="gender" required>
@@ -264,16 +294,37 @@
           </select>
         </div>
 
-        <!-- Birthday -->
         <div class="form-group">
           <label for="birthday">Date of Birth</label>
           <input type="date" id="birthday" required>
         </div>
 
-        <!-- Address -->
         <div class="form-group full-width">
           <label for="address">Complete Address</label>
           <input type="text" id="address" required placeholder="House No., Street, Barangay, City">
+        </div>
+
+        <!-- Contact Information -->
+        <div class="section-title">📞 Contact Details (Type "N/A" if none)</div>
+
+        <div class="form-group">
+          <label for="studentMobile">Student Mobile No.</label>
+          <input type="text" id="studentMobile" value="N/A" required placeholder="09xxxxxxxxx or N/A">
+        </div>
+
+        <div class="form-group">
+          <label for="studentEmail">Student Email Address</label>
+          <input type="text" id="studentEmail" value="N/A" required placeholder="email@example.com or N/A">
+        </div>
+
+        <div class="form-group">
+          <label for="parentMobile">Parent / Guardian Mobile No.</label>
+          <input type="text" id="parentMobile" value="N/A" required placeholder="09xxxxxxxxx or N/A">
+        </div>
+
+        <div class="form-group">
+          <label for="parentEmail">Parent / Guardian Email</label>
+          <input type="text" id="parentEmail" value="N/A" required placeholder="email@example.com or N/A">
         </div>
 
         <!-- Data Privacy Notice -->
@@ -281,7 +332,7 @@
           <div class="info-card">
             <h3>🔒 Parent / Guardian Data Privacy Notice</h3>
             <p>
-              Please be advised that the personal information collected in this form (including the student's name, grade level, age, birthday, and address) will be strictly used for official club records, membership verification, and communication regarding club activities. All data will be kept confidential and stored securely in accordance with standard data privacy regulations.
+              Please be advised that the personal and contact information collected in this form will be strictly used for official club records, membership verification, and communication regarding club activities. All data will be kept confidential and stored securely in accordance with standard data privacy regulations.
             </p>
           </div>
         </div>
@@ -317,6 +368,12 @@
 
       <button type="submit" class="submit-btn" id="submitBtn">🚀 Submit Registration</button>
       <div id="statusMsg" class="status-msg"></div>
+
+      <!-- Announcement Banner post-submit -->
+      <div id="announcementBox" class="announcement-box">
+        <h4 id="announceTitle">📢 Science Club Announcement</h4>
+        <p id="announceMsg">There will be a Club Meeting on Thursday at Grade 12 Room at 3:45 PM. Please wait for Sir JC.</p>
+      </div>
     </form>
   </div>
 
@@ -356,6 +413,7 @@
     const form = document.getElementById('registrationForm');
     const statusMsg = document.getElementById('statusMsg');
     const submitBtn = document.getElementById('submitBtn');
+    const announcementBox = document.getElementById('announcementBox');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -365,19 +423,26 @@
         return;
       }
 
+      const selectedClub = document.getElementById('selectedClub').value;
+
       submitBtn.disabled = true;
       submitBtn.innerText = "Submitting...";
       statusMsg.style.color = "#0f5132";
       statusMsg.innerText = "Processing registration...";
+      announcementBox.style.display = "none";
 
       const payload = {
-        selectedClub: document.getElementById('selectedClub').value,
+        selectedClub: selectedClub,
         fullName: document.getElementById('fullName').value,
         gradeLevel: document.getElementById('gradeLevel').value,
         age: document.getElementById('age').value,
         gender: document.getElementById('gender').value,
         birthday: document.getElementById('birthday').value,
         address: document.getElementById('address').value,
+        studentMobile: document.getElementById('studentMobile').value,
+        studentEmail: document.getElementById('studentEmail').value,
+        parentMobile: document.getElementById('parentMobile').value,
+        parentEmail: document.getElementById('parentEmail').value,
         consentStatus: document.getElementById('consentStatus').value,
         disapprovalReason: document.getElementById('disapprovalReason').value
       };
@@ -392,7 +457,18 @@
 
         statusMsg.style.color = "#198754";
         statusMsg.innerText = "✅ Registration submitted successfully!";
+
+        // Trigger Science Club Announcement if applicable
+        if (selectedClub === "Science Club") {
+          announcementBox.style.display = "block";
+        }
+
         form.reset();
+        // Reset defaults
+        document.getElementById('studentMobile').value = "N/A";
+        document.getElementById('studentEmail').value = "N/A";
+        document.getElementById('parentMobile').value = "N/A";
+        document.getElementById('parentEmail').value = "N/A";
         document.getElementById('reasonBox').style.display = "none";
         document.getElementById('clubTitle').innerText = "🧪 Club Membership Registration 📐";
       } catch (error) {
