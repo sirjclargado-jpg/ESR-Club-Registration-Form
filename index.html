@@ -270,6 +270,10 @@
           <label for="gradeLevel">Grade Level</label>
           <select id="gradeLevel" required>
             <option value="" disabled selected>Select Grade</option>
+            <option value="Grade 3">Grade 3</option>
+            <option value="Grade 4">Grade 4</option>
+            <option value="Grade 5">Grade 5</option>
+            <option value="Grade 6">Grade 6</option>
             <option value="Grade 7">Grade 7</option>
             <option value="Grade 8">Grade 8</option>
             <option value="Grade 9">Grade 9</option>
@@ -281,7 +285,7 @@
 
         <div class="form-group">
           <label for="age">Age</label>
-          <input type="number" id="age" min="10" max="25" required placeholder="Age">
+          <input type="number" id="age" min="7" max="25" required placeholder="Age">
         </div>
 
         <div class="form-group">
@@ -379,7 +383,7 @@
 
   <script>
     // ⚠️ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
-    const SCRIPT_URL = "YOUR_DEPLOYED_GOOGLE_APPS_SCRIPT_URL";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCPeSjjAx0CcNHHwe8NUUJTyxBrW6iryZU-s2WSVF4STyKG031mz-6GpcyUQxeS5OG/exec";
 
     // Dynamic Header Title based on Selection
     function updateClubTheme(club) {
@@ -424,6 +428,7 @@
       }
 
       const selectedClub = document.getElementById('selectedClub').value;
+      const gradeLevel = document.getElementById('gradeLevel').value;
 
       submitBtn.disabled = true;
       submitBtn.innerText = "Submitting...";
@@ -434,7 +439,7 @@
       const payload = {
         selectedClub: selectedClub,
         fullName: document.getElementById('fullName').value,
-        gradeLevel: document.getElementById('gradeLevel').value,
+        gradeLevel: gradeLevel,
         age: document.getElementById('age').value,
         gender: document.getElementById('gender').value,
         birthday: document.getElementById('birthday').value,
@@ -458,8 +463,11 @@
         statusMsg.style.color = "#198754";
         statusMsg.innerText = "✅ Registration submitted successfully!";
 
-        // Trigger Science Club Announcement if applicable
-        if (selectedClub === "Science Club") {
+        // Define High School grades (Grades 7-12)
+        const highSchoolGrades = ["Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
+
+        // Display meeting announcement ONLY for Science Club registrants in High School (Grades 7-12)
+        if (selectedClub === "Science Club" && highSchoolGrades.includes(gradeLevel)) {
           announcementBox.style.display = "block";
         }
 
