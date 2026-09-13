@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Club Registration</title>
+  <style>
+    :root {
+      --primary-green: #0f5132;
+      --accent-green: #198754;
+      --bright-yellow: #ffc107;
+      --light-yellow: #fff8e1;
+      --dark-text: #1a252c;
+      --card-bg: rgba(255, 255, 255, 0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a3622 0%, #198754 100%);
+      color: var(--dark-text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Science Background Accents */
+    body::before, body::after {
+      content: "⚛";
+      position: absolute;
+      font-size: 15rem;
+      color: rgba(255, 193, 7, 0.08);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before { top: -50px; left: -50px; transform: rotate(15deg); }
+    body::after { bottom: -50px; right: -50px; transform: rotate(-20deg); }
+
+    .form-container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 680px;
+      padding: 35px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border-top: 8px solid var(--bright-yellow);
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      color: var(--primary-green);
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .header p {
+      color: #555;
+      font-size: 0.95rem;
+      margin-top: 5px;
+    }
+
+    .badge {
+      background: var(--bright-yellow);
+      color: #000;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--primary-green);
+      font-size: 0.9rem;
+    }
+
+    input, select, textarea {
+      padding: 10px 12px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 8px rgba(25, 135, 84, 0.25);
+    }
+
+    /* Consent Card */
+    .consent-card {
+      background: var(--light-yellow);
+      border: 1.5px dashed var(--bright-yellow);
+      border-left: 5px solid var(--bright-yellow);
+      padding: 18px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .consent-card h3 {
+      color: var(--primary-green);
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .consent-card p {
+      font-size: 0.85rem;
+      color: #333;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+
+    .reason-box {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .reason-box textarea {
+      width: 100%;
+      height: 80px;
+      resize: vertical;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      margin-top: 20px;
+      width: 100%;
+      background: var(--bright-yellow);
+      color: #000;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .submit-btn:hover {
+      background: #e0a800;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.99);
+    }
+
+    .status-msg {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .full-width {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <div class="header">
+      <span class="badge">Official Registration</span>
+      <h1>🧪 Science Club Membership 🔬</h1>
+      <p>Explore, Discover, and Innovate with Us!</p>
+    </div>
+
+    <form id="registrationForm">
+      <div class="form-grid">
+        
+        <!-- Full Name -->
+        <div class="form-group full-width">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" required placeholder="e.g. Juan Cruz">
+        </div>
+
+        <!-- Grade Level -->
+        <div class="form-group">
+          <label for="gradeLevel">Grade Level</label>
+          <select id="gradeLevel" required>
+            <option value="" disabled selected>Select Grade</option>
+            <option value="Grade 7">Grade 7</option>
+            <option value="Grade 8">Grade 8</option>
+            <option value="Grade 9">Grade 9</option>
+            <option value="Grade 10">Grade 10</option>
+            <option value="Grade 11">Grade 11</option>
+            <option value="Grade 12">Grade 12</option>
+          </select>
+        </div>
+
+        <!-- Age -->
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" min="10" max="25" required placeholder="Age">
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" required>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+        </div>
+
+        <!-- Birthday -->
+        <div class="form-group">
+          <label for="birthday">Date of Birth</label>
+          <input type="date" id="birthday" required>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group full-width">
+          <label for="address">Complete Address</label>
+          <input type="text" id="address" required placeholder="House No., Street, Barangay, City">
+        </div>
+
+        <!-- Parent / Guardian Consent Options -->
+        <div class="form-group full-width">
+          <div class="consent-card">
+            <h3>📜 Parent / Guardian Consent</h3>
+            <p>Please select your consent decision regarding your son/daughter joining the Science Club:</p>
+
+            <div class="form-group">
+              <label for="consentStatus">Consent Selection</label>
+              <select id="consentStatus" required onchange="toggleReasonBox(this.value)">
+                <option value="" disabled selected>Choose an option</option>
+                <option value="I allow my son/daughter to join the Science Club">
+                  ✅ I ALLOW my son/daughter to join the Science Club
+                </option>
+                <option value="I am NOT allowing my son/daughter to join the Science Club">
+                  ❌ I am NOT allowing my son/daughter to join the Science Club
+                </option>
+              </select>
+            </div>
+
+            <!-- Reason Field (Conditional) -->
+            <div id="reasonBox" class="form-group reason-box">
+              <label for="disapprovalReason">Please state the reason why you are not allowing your child to join:</label>
+              <textarea id="disapprovalReason" placeholder="State your reason here..."></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">🚀 Submit Registration</button>
+      <div id="statusMsg" class="status-msg"></div>
+    </form>
+  </div>
+
+  <script>
+    // ⚠️ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+    const SCRIPT_URL = https://script.google.com/macros/s/AKfycbzCPeSjjAx0CcNHHwe8NUUJTyxBrW6iryZU-s2WSVF4STyKG031mz-6GpcyUQxeS5OG/exec;
+
+    // Toggle reason field visibility
+    function toggleReasonBox(selectedValue) {
+      const reasonBox = document.getElementById('reasonBox');
+      const reasonInput = document.getElementById('disapprovalReason');
+
+      if (selectedValue === "I am NOT allowing my son/daughter to join the Science Club") {
+        reasonBox.style.display = "block";
+        reasonInput.required = true;
+      } else {
+        reasonBox.style.display = "none";
+        reasonInput.required = false;
+        reasonInput.value = "";
+      }
+    }
+
+    // Form Submission Handler
+    const form = document.getElementById('registrationForm');
+    const statusMsg = document.getElementById('statusMsg');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (SCRIPT_URL === "YOUR_DEPLOYED_GOOGLE_APPS_SCRIPT_URL") {
+        alert("Please replace SCRIPT_URL in index.html with your actual Google Apps Script Web App URL.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Submitting...";
+      statusMsg.style.color = "#0f5132";
+      statusMsg.innerText = "Processing registration...";
+
+      const payload = {
+        fullName: document.getElementById('fullName').value,
+        gradeLevel: document.getElementById('gradeLevel').value,
+        age: document.getElementById('age').value,
+        gender: document.getElementById('gender').value,
+        birthday: document.getElementById('birthday').value,
+        address: document.getElementById('address').value,
+        consentStatus: document.getElementById('consentStatus').value,
+        disapprovalReason: document.getElementById('disapprovalReason').value
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        statusMsg.style.color = "#198754";
+        statusMsg.innerText = "✅ Registration submitted successfully!";
+        form.reset();
+        document.getElementById('reasonBox').style.display = "none";
+      } catch (error) {
+        statusMsg.style.color = "#dc3545";
+        statusMsg.innerText = "❌ Submission failed. Please try again.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "🚀 Submit Registration";
+      }
+    });
+  </script>
+</body>
+</html>
