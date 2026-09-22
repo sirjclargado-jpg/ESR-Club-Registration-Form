@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Math and Science Club Membership Registration</title>
+  <title>ESR Club Registration</title>
   <style>
     :root {
       --primary-green: #0f5132;
@@ -33,17 +33,18 @@
       overflow-x: hidden;
     }
 
-    /* Science & Math Background Accents */
+    /* Background Accents */
     body::before, body::after {
-      content: "⚛ ∑";
+      content: "📚 ⚛ 📐 🖋️";
       position: absolute;
-      font-size: 12rem;
+      font-size: 8rem;
       color: rgba(255, 193, 7, 0.08);
       pointer-events: none;
       z-index: 0;
+      word-spacing: 20px;
     }
-    body::before { top: -40px; left: -40px; transform: rotate(15deg); }
-    body::after { bottom: -40px; right: -40px; transform: rotate(-20deg); }
+    body::before { top: -20px; left: -20px; transform: rotate(15deg); }
+    body::after { bottom: -20px; right: -20px; transform: rotate(-20deg); }
 
     .form-container {
       background: var(--card-bg);
@@ -64,7 +65,7 @@
 
     .header h1 {
       color: var(--primary-green);
-      font-size: 1.8rem;
+      font-size: 1.7rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -174,27 +175,6 @@
       resize: vertical;
     }
 
-    /* Announcement Box */
-    .announcement-box {
-      display: none;
-      background: #e8f5e9;
-      border: 2px solid var(--accent-green);
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 15px;
-      text-align: center;
-    }
-
-    .announcement-box h4 {
-      color: var(--primary-green);
-      margin-bottom: 5px;
-    }
-
-    .announcement-box p {
-      font-size: 0.9rem;
-      color: #1b5e20;
-    }
-
     /* Submit Button */
     .submit-btn {
       margin-top: 20px;
@@ -241,8 +221,8 @@
   <div class="form-container">
     <div class="header">
       <span class="badge">Official Registration</span>
-      <h1 id="clubTitle">📐 Math & Science Club Registration 🧪</h1>
-      <p id="clubSubtitle">Explore, Discover, and Innovate with Us!</p>
+      <h1 id="clubTitle">🏫 ESR Club Registration 📚</h1>
+      <p id="clubSubtitle">Choose your organization and excel with us!</p>
     </div>
 
     <form id="registrationForm">
@@ -255,6 +235,8 @@
             <option value="" disabled selected>-- Choose a Club --</option>
             <option value="Science Club">🧪 Science Club</option>
             <option value="Math Club">📐 Math Club</option>
+            <option value="English Club">📖 English Club</option>
+            <option value="Filipino Club">🇵🇭 Kapisanang Filipino</option>
           </select>
         </div>
 
@@ -270,10 +252,6 @@
           <label for="gradeLevel">Grade Level</label>
           <select id="gradeLevel" required>
             <option value="" disabled selected>Select Grade</option>
-            <option value="Grade 3">Grade 3</option>
-            <option value="Grade 4">Grade 4</option>
-            <option value="Grade 5">Grade 5</option>
-            <option value="Grade 6">Grade 6</option>
             <option value="Grade 7">Grade 7</option>
             <option value="Grade 8">Grade 8</option>
             <option value="Grade 9">Grade 9</option>
@@ -285,7 +263,7 @@
 
         <div class="form-group">
           <label for="age">Age</label>
-          <input type="number" id="age" min="7" max="25" required placeholder="Age">
+          <input type="number" id="age" min="10" max="25" required placeholder="Age">
         </div>
 
         <div class="form-group">
@@ -372,29 +350,30 @@
 
       <button type="submit" class="submit-btn" id="submitBtn">🚀 Submit Registration</button>
       <div id="statusMsg" class="status-msg"></div>
-
-      <!-- Announcement Banner post-submit -->
-      <div id="announcementBox" class="announcement-box">
-        <h4 id="announceTitle">📢 Science Club Announcement</h4>
-        <p id="announceMsg">There will be a Club Meeting on Thursday, September 17, 2026 at Grade 12 Room at 3:45 PM. Please wait for Sir JC.</p>
-      </div>
     </form>
   </div>
 
   <script>
     // ⚠️ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCPeSjjAx0CcNHHwe8NUUJTyxBrW6iryZU-s2WSVF4STyKG031mz-6GpcyUQxeS5OG/exec";
+    const SCRIPT_URL = "YOUR_DEPLOYED_GOOGLE_APPS_SCRIPT_URL";
 
-    // Dynamic Header Title based on Selection
+    // Dynamic Header Title & Subtitle based on Selection
     function updateClubTheme(club) {
       const title = document.getElementById('clubTitle');
       const subtitle = document.getElementById('clubSubtitle');
+
       if (club === "Science Club") {
         title.innerText = "🧪 Science Club Membership 🔬";
         subtitle.innerText = "Explore, Discover, and Innovate with Us!";
       } else if (club === "Math Club") {
         title.innerText = "📐 Math Club Membership 🧮";
         subtitle.innerText = "Calculate, Solve, and Excel with Us!";
+      } else if (club === "English Club") {
+        title.innerText = "📖 English Club Membership 🖋️";
+        subtitle.innerText = "Express, Inspire, and Communicate with Us!";
+      } else if (club === "Filipino Club") {
+        title.innerText = "🇵🇭 Kapisanang Filipino ✍️";
+        subtitle.innerText = "Pagyamanin at Ipagmalaki ang Wikang Filipino!";
       }
     }
 
@@ -417,29 +396,26 @@
     const form = document.getElementById('registrationForm');
     const statusMsg = document.getElementById('statusMsg');
     const submitBtn = document.getElementById('submitBtn');
-    const announcementBox = document.getElementById('announcementBox');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      if (SCRIPT_URL === "YOUR_DEPLOYED_GOOGLE_APPS_SCRIPT_URL") {
+      if (SCRIPT_URL === "https://script.google.com/macros/s/AKfycbwjVoLpDLObFK1j5THnET4uiPPKZseo3CS1ylLKLiuQMmCXCnHz1bt94U0rkO5-0ZaU/exec") {
         alert("Please replace SCRIPT_URL in index.html with your actual Google Apps Script Web App URL.");
         return;
       }
 
       const selectedClub = document.getElementById('selectedClub').value;
-      const gradeLevel = document.getElementById('gradeLevel').value;
 
       submitBtn.disabled = true;
       submitBtn.innerText = "Submitting...";
       statusMsg.style.color = "#0f5132";
       statusMsg.innerText = "Processing registration...";
-      announcementBox.style.display = "none";
 
       const payload = {
         selectedClub: selectedClub,
         fullName: document.getElementById('fullName').value,
-        gradeLevel: gradeLevel,
+        gradeLevel: document.getElementById('gradeLevel').value,
         age: document.getElementById('age').value,
         gender: document.getElementById('gender').value,
         birthday: document.getElementById('birthday').value,
@@ -463,14 +439,6 @@
         statusMsg.style.color = "#198754";
         statusMsg.innerText = "✅ Registration submitted successfully!";
 
-        // Define High School grades (Grades 7-12)
-        const highSchoolGrades = ["Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
-
-        // Display meeting announcement ONLY for Science Club registrants in High School (Grades 7-12)
-        if (selectedClub === "Science Club" && highSchoolGrades.includes(gradeLevel)) {
-          announcementBox.style.display = "block";
-        }
-
         form.reset();
         // Reset defaults
         document.getElementById('studentMobile').value = "N/A";
@@ -478,7 +446,8 @@
         document.getElementById('parentMobile').value = "N/A";
         document.getElementById('parentEmail').value = "N/A";
         document.getElementById('reasonBox').style.display = "none";
-        document.getElementById('clubTitle').innerText = "📐 Math & Science Club Registration 🧪";
+        document.getElementById('clubTitle').innerText = "🏫 ESR Club Registration 📚";
+        document.getElementById('clubSubtitle').innerText = "Choose your organization and excel with us!";
       } catch (error) {
         statusMsg.style.color = "#dc3545";
         statusMsg.innerText = "❌ Submission failed. Please try again.";
